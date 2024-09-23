@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>Lockable doors</name>
+    <author>Zeracronius</author>
+    <packageId>Zeracronius.LockableDoors</packageId>
+    <url>https://github.com/Zeracronius/LockableDoors</url>
+    <supportedVersions>
+        <li>1.5</li>
+    </supportedVersions>
+    <description>A simple and performance friendly door lock.</description>
+</ModMetaData>

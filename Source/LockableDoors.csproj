@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>NET48</TargetFramework>
+		<langVersion>10.0</langVersion>
+		<Nullable>enable</Nullable>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Configurations>Debug;Hotswap;1.5</Configurations>
+	</PropertyGroup>
+	<Choose>
+		<When Condition="'$(Configuration)'=='1.5'">
+			<PropertyGroup>
+				<OutputPath>..\..\1.5\Assemblies\</OutputPath>
+			</PropertyGroup>
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4184-beta">
+					<ExcludeAssets>runtime</ExcludeAssets>
+				</PackageReference>
+				<PackageReference Include="Lib.Harmony" Version="2.3.3">
+					<ExcludeAssets>runtime</ExcludeAssets>
+				</PackageReference>
+			</ItemGroup>
+		</When>
+		<Otherwise>
+			<PropertyGroup>
+				<OutputPath>..\..\1.4\Assemblies\</OutputPath>
+			</PropertyGroup>
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3704">
+					<ExcludeAssets>runtime</ExcludeAssets>
+				</PackageReference>
+				<PackageReference Include="Lib.Harmony" Version="2.2.2">
+					<ExcludeAssets>runtime</ExcludeAssets>
+				</PackageReference>
+			</ItemGroup>
+		</Otherwise>
+	</Choose>
+	<ItemGroup>
+	  <PackageReference Include="Zetrith.Prepatcher" Version="1.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Patches\" />
+	</ItemGroup>
+</Project>
