@@ -13,8 +13,8 @@ namespace LockableDoors.Mod
 	{
         static Initalizer()
         {
-
-			Harmony Harmony = new Harmony("DynamicTradeInterfaceMod");
+			Harmony Harmony = new Harmony("Zeracronius.LockableDoors");
+			Harmony.PatchAll();
 		}
     }
 }
