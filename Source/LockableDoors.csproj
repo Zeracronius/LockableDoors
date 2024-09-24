@@ -10,20 +10,20 @@
 	<Choose>
 		<When Condition="'$(Configuration)'=='1.5'">
 			<PropertyGroup>
-				<OutputPath>..\..\1.5\Assemblies\</OutputPath>
+				<OutputPath>..\1.5\Assemblies\</OutputPath>
 			</PropertyGroup>
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.4184-beta">
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*">
 					<ExcludeAssets>runtime</ExcludeAssets>
 				</PackageReference>
-				<PackageReference Include="Lib.Harmony" Version="2.3.3">
+				<PackageReference Include="Lib.Harmony" Version="2.3.1.1">
 					<ExcludeAssets>runtime</ExcludeAssets>
 				</PackageReference>
 			</ItemGroup>
 		</When>
 		<Otherwise>
 			<PropertyGroup>
-				<OutputPath>..\..\1.4\Assemblies\</OutputPath>
+				<OutputPath>..\1.4\Assemblies\</OutputPath>
 			</PropertyGroup>
 			<ItemGroup>
 				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3704">
