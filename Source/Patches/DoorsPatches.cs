@@ -1,4 +1,6 @@
-﻿using Prepatcher;
+﻿using HarmonyLib;
+using LockableDoors.Extensions;
+using Prepatcher;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -6,40 +8,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
+using Verse.Noise;
 
 namespace LockableDoors.Patches
 {
-	[HarmonyLib.HarmonyPatch(typeof(Building_Door))]
-	internal static class DoorsPatch
+	[HarmonyLib.HarmonyPatch(typeof(Building_Door)), HarmonyLib.HarmonyPatchCategory("Required")]
+	internal static class DoorsPatches
 	{
-		private static Action<Building_Door, Verse.Map> ClearReachabilityCache;
+		private static string _unlockedLabel = "LockableDoorsUnlocked".Translate();
+		private static string _lockedLabel = "LockableDoorsLocked".Translate();
+		private static Action<Building_Door, Verse.Map> _clearReachabilityCache;
 
-		static DoorsPatch()
+		static DoorsPatches()
 		{
-			ClearReachabilityCache = HarmonyLib.AccessTools.MethodDelegate<Action<Building_Door, Verse.Map>>("RimWorld.Building_Door:ClearReachabilityCache");
+			_clearReachabilityCache = HarmonyLib.AccessTools.MethodDelegate<Action<Building_Door, Verse.Map>>("RimWorld.Building_Door:ClearReachabilityCache");
 		}
 
-		static string UnlockedLabel = "LockableDoorsUnlocked".Translate();
-		static string LockedLabel = "LockableDoorsLocked".Translate();
-
-
-		/// <summary>
-		/// Injected prepatcher locked field on Building_Door object.
-		/// </summary>
-		[PrepatcherField]
-		[Prepatcher.DefaultValue(false)]
-		public static extern ref bool IsLocked(this Building_Door target);
-
-		/// <summary>
-		/// Injected prepatcher Gizmo field on Building_Door object.
-		/// </summary>
-		[PrepatcherField]
-		[Prepatcher.DefaultValue(null)]
-		public static extern ref Verse.Command_Action ToggleLockGizmo(this Building_Door target);
 
 		// Where the actual magic happens! Prevent doors from being opened by anyone if locked.
 		[HarmonyLib.HarmonyPatch(nameof(Building_Door.PawnCanOpen)), HarmonyLib.HarmonyPrefix]
-		internal static bool PawnCanOpenPatch(ref bool __result, Building_Door __instance)
+		[HarmonyPriority(Priority.First)]
+		internal static bool PawnCanOpenPrefix(ref bool __result, Building_Door __instance)
 		{
 			if (__instance.IsLocked())
 			{
@@ -51,7 +40,7 @@ namespace LockableDoors.Patches
 
 		// Patch GetGizmos to include toggle button for doors owned by player.
 		[HarmonyLib.HarmonyPatch(nameof(Building_Door.GetGizmos)), HarmonyLib.HarmonyPostfix]
-		internal static IEnumerable<Verse.Gizmo> GetGizmosPatch(IEnumerable<Verse.Gizmo> values, Building_Door __instance, Faction ___factionInt)
+		internal static IEnumerable<Verse.Gizmo> GetGizmosPostfix(IEnumerable<Verse.Gizmo> values, Building_Door __instance, Faction ___factionInt)
 		{
 			// Show any existing buttons
 			foreach (Verse.Gizmo gizmo in values)
@@ -69,7 +58,7 @@ namespace LockableDoors.Patches
 				{
 					togglebutton = new Verse.Command_Action()
 					{
-						defaultLabel = UnlockedLabel,
+						defaultLabel = _unlockedLabel,
 						icon = Mod.Textures.UnlockedIcon,
 						action = () => ToggleDoor(__instance, togglebutton!)
 					};
@@ -90,9 +79,12 @@ namespace LockableDoors.Patches
 		{
 			ref bool locked = ref door.IsLocked();
 			locked = !locked;
-			action!.defaultLabel = locked ? LockedLabel : UnlockedLabel;
+			action!.defaultLabel = locked ? _lockedLabel : _unlockedLabel;
 			action!.icon = locked ? Mod.Textures.LockedIcon : Mod.Textures.UnlockedIcon;
-			ClearReachabilityCache(door, door.Map);
+			_clearReachabilityCache(door, door.Map);
+
+			foreach (IntVec3 item in door.OccupiedRect())
+				door.Map.mapDrawer.MapMeshDirty(item, DefOf.LDMapMeshFlagDefOf.DoorLocks);
 		}
 	}
 }

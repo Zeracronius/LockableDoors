@@ -1,0 +1,13 @@
+<Defs>
+	<LockableDoors.GraphicsDef>
+		<defName>LockedDoorGraphics</defName>
+		<graphicData>
+			<texPath>LD_Locked_door</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+			<drawOffset>(0,2,0)</drawOffset>
+			<drawRotated>false</drawRotated>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+	</LockableDoors.GraphicsDef>
+</Defs>

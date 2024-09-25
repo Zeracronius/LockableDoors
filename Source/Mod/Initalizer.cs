@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LockableDoors.Patches;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,17 @@ namespace LockableDoors.Mod
 	internal static class Initalizer
 	{
         static Initalizer()
-        {
-			Harmony Harmony = new Harmony("Zeracronius.LockableDoors");
-			Harmony.PatchAll();
+		{
+			LockableDoorsMod.Settings = LoadedModManager.GetMod<LockableDoorsMod>().GetSettings<LockableDoorsSettings>();
+
+
+			var harmony = new Harmony("Zeracronius.LockableDoors");
+			harmony.PatchCategory("Required");
+
+			if (LockableDoorsMod.Settings.PrintLockSymbol)
+				harmony.PatchCategory("Printing");
+
+			LockableDoorsMod.Harmony = harmony;
 		}
     }
 }

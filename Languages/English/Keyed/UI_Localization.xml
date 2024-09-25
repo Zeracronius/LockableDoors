@@ -1,4 +1,5 @@
 <LanguageData>
 	<LockableDoorsLocked>Locked</LockableDoorsLocked>
 	<LockableDoorsUnlocked>Unlocked</LockableDoorsUnlocked>
+	<LockableDoorsSettingsShowLocks>Show lock above locked doors.</LockableDoorsSettingsShowLocks>
 </LanguageData>
