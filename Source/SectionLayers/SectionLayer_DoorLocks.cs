@@ -20,8 +20,7 @@ namespace LockableDoors.SectionLayers
 				{
 					foreach (Building_Door door in map.listerBuildings.AllBuildingsColonistOfClass<Building_Door>())
 					{
-						foreach (IntVec3 item in door.OccupiedRect())
-							map.mapDrawer.MapMeshDirty(item, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+						map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
 					}
 				}
 			}
@@ -65,7 +64,7 @@ namespace LockableDoors.SectionLayers
 				for (int i = 0; i < count; i++)
 				{
 					Thing thing = list[i];
-					if (thing is Building_Door door)
+					if (thing is Building_Door door && thing.Position == item)
 					{
 						if (door.IsLocked())
 						{
