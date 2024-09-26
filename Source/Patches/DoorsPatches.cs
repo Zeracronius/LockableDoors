@@ -12,7 +12,7 @@ using Verse.Noise;
 
 namespace LockableDoors.Patches
 {
-	[HarmonyLib.HarmonyPatch(typeof(Building_Door)), HarmonyLib.HarmonyPatchCategory("Required")]
+	[HarmonyLib.HarmonyPatch(typeof(Building_Door))]
 	internal static class DoorsPatches
 	{
 		private static string _unlockedLabel = "LockableDoorsUnlocked".Translate();
@@ -24,6 +24,12 @@ namespace LockableDoors.Patches
 			_clearReachabilityCache = HarmonyLib.AccessTools.MethodDelegate<Action<Building_Door, Verse.Map>>("RimWorld.Building_Door:ClearReachabilityCache");
 		}
 
+		// Extend door's expose data with additional lock value.
+		[HarmonyLib.HarmonyPatch(nameof(Building_Door.ExposeData)), HarmonyLib.HarmonyPostfix]
+		internal static void ExposeDataPostfix(Building_Door __instance)
+		{
+			Scribe_Values.Look(ref __instance.IsLocked(), nameof(DoorExtensions.IsLocked));
+		}
 
 		// Where the actual magic happens! Prevent doors from being opened by anyone if locked.
 		[HarmonyLib.HarmonyPatch(nameof(Building_Door.PawnCanOpen)), HarmonyLib.HarmonyPrefix]

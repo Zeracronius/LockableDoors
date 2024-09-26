@@ -18,10 +18,7 @@ namespace LockableDoors.Mod
 
 
 			var harmony = new Harmony("Zeracronius.LockableDoors");
-			harmony.PatchCategory("Required");
-
-			if (LockableDoorsMod.Settings.PrintLockSymbol)
-				harmony.PatchCategory("Printing");
+			harmony.PatchAll();
 
 			LockableDoorsMod.Harmony = harmony;
 		}
