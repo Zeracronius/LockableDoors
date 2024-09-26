@@ -62,10 +62,11 @@ namespace LockableDoors.Patches
 				// If no button is cached on this door, generate one.
 				if (togglebutton == null)
 				{
+					bool locked = __instance.IsLocked();
 					togglebutton = new Verse.Command_Action()
 					{
-						defaultLabel = _unlockedLabel,
-						icon = Mod.Textures.UnlockedIcon,
+						defaultLabel = locked ? _lockedLabel : _unlockedLabel,
+						icon = locked ? Mod.Textures.LockedIcon : Mod.Textures.UnlockedIcon,
 						action = () => ToggleDoor(__instance, togglebutton!)
 					};
 					__instance.ToggleLockGizmo() = togglebutton;
@@ -89,8 +90,8 @@ namespace LockableDoors.Patches
 			action!.icon = locked ? Mod.Textures.LockedIcon : Mod.Textures.UnlockedIcon;
 			_clearReachabilityCache(door, door.Map);
 
-			foreach (IntVec3 item in door.OccupiedRect())
-				door.Map.mapDrawer.MapMeshDirty(item, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+			// Invalidate lock print state
+			door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
 		}
 	}
 }

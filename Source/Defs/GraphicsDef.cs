@@ -8,7 +8,7 @@ using Verse;
 namespace LockableDoors
 {
 	/// <summary>
-	/// Def that only contains graphicData definition.
+	/// Def that allows defining a stand-alone <see cref="GraphicData"/>.
 	/// </summary>
 	/// <seealso cref="Verse.Def" />
 	internal class GraphicsDef : Def

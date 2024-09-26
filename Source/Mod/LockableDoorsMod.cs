@@ -36,7 +36,7 @@ namespace LockableDoors.Mod
 			options.Draw(inRect);
 			
 			if (before != Settings.PrintLockSymbol)
-				SectionLayers.SectionLayer_DoorLocks.RegenerateLayer();
+				SectionLayers.SectionLayer_DoorLocks.InvalidateDoors();
 		}
 	}
 }

@@ -12,7 +12,10 @@ namespace LockableDoors.SectionLayers
 {
 	internal class SectionLayer_DoorLocks : SectionLayer
 	{
-		internal static void RegenerateLayer()
+		/// <summary>
+		/// Invalidates the printed lock of all player-owned doors.
+		/// </summary>
+		internal static void InvalidateDoors()
 		{
 			foreach (Map map in Find.Maps)
 			{
@@ -32,6 +35,7 @@ namespace LockableDoors.SectionLayers
 		public SectionLayer_DoorLocks(Section section) 
 			: base(section)
 		{
+			// Trigger printing of this layer when DoorLocks or Buildings change.
 			relevantChangeTypes = (ulong)DefOf.LDMapMeshFlagDefOf.DoorLocks | (ulong)MapMeshFlagDefOf.Buildings;
 			_lockedDoorGraphics = DefDatabase<GraphicsDef>.GetNamed("LockedDoorGraphics");
 		}

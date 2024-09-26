@@ -15,6 +15,9 @@ namespace LockableDoors.DefOf
 			DefOfHelper.EnsureInitializedInCtor(typeof(LDMapMeshFlagDefOf));
 		}
 
+		/// <summary>
+		/// Map print layer used for rendering door locks.
+		/// </summary>
 		public static MapMeshFlagDef? DoorLocks;
 	}
 }
