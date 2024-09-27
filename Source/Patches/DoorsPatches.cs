@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using LockableDoors.Enums;
 using LockableDoors.Extensions;
-using Prepatcher;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Verse;
-using Verse.Noise;
 
 namespace LockableDoors.Patches
 {
@@ -35,16 +33,50 @@ namespace LockableDoors.Patches
 		// Where the actual magic happens! Prevent doors from being opened by anyone if locked.
 		[HarmonyLib.HarmonyPatch(nameof(Building_Door.PawnCanOpen)), HarmonyLib.HarmonyPrefix]
 		[HarmonyPriority(Priority.First)]
-		internal static bool PawnCanOpenPrefix(ref bool __result, Building_Door __instance)
+		internal static bool PawnCanOpenPrefix(Pawn p, ref bool __result, Building_Door __instance)
 		{
-			if (__instance.IsLocked())
+			// If the door is not locked, continue as normal.
+			if (__instance.IsLocked() == false)
+				return true;
+
+			// Otherwise check for exceptions
+			Exceptions exceptions = __instance.LockExceptions();
+			if (exceptions != Exceptions.None)
 			{
-				Exceptions exceptions = __instance.LockExceptions();
-				if (exceptions == Exceptions.None)
-					__result = false;
-				return false;
+				// If exceptions are defined, then check if pawn is player-owned.
+				if (p.Faction?.def.isPlayer == true)
+				{
+					if ((exceptions & Exceptions.Pets) == Exceptions.Pets)
+					{
+						if (p.def.race.Animal)
+							return true;
+					}
+
+					if ((exceptions & Exceptions.Colonists) == Exceptions.Colonists)
+					{
+						// If colonists are exempt and pawn is colonist, continue as normal.
+						if (p.IsColonist || p.IsColonyMech)
+							return true;
+					}
+				}
+				else
+				{
+					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
+					{
+						if (p.IsSlaveOfColony)
+							return true;
+					}
+
+					if ((exceptions & Exceptions.Allies) == Exceptions.Allies)
+					{
+						if (p.Faction.HostileTo(Faction.OfPlayer) == false)
+							return true;
+					}
+				}
 			}
-			return true;
+
+			__result = false;
+			return false;
 		}
 
 		// Patch GetGizmos to include toggle button for doors owned by player.
@@ -77,6 +109,32 @@ namespace LockableDoors.Patches
 
 
 				yield return togglebutton;
+
+				Exceptions exceptions = __instance.LockExceptions();
+
+				yield return new Verse.Command_Action()
+				{
+					defaultLabel = ((exceptions & Exceptions.Pets) == Exceptions.Pets) ? "Pets Allowed" : "Pets Blocked",
+					action = () => __instance.LockExceptions() ^= Exceptions.Pets
+				};
+
+				yield return new Verse.Command_Action()
+				{
+					defaultLabel = ((exceptions & Exceptions.Colonists) == Exceptions.Colonists) ? "Colonists Allowed" : "Colonists Blocked",
+					action = () => __instance.LockExceptions() ^= Exceptions.Colonists
+				};
+
+				yield return new Verse.Command_Action()
+				{
+					defaultLabel = ((exceptions & Exceptions.Allies) == Exceptions.Allies) ? "Allies Allowed" : "Allies Blocked",
+					action = () => __instance.LockExceptions() ^= Exceptions.Allies
+				};
+
+				yield return new Verse.Command_Action()
+				{
+					defaultLabel = ((exceptions & Exceptions.Slaves) == Exceptions.Slaves) ? "Slaves Allowed" : "Slaves Blocked",
+					action = () => __instance.LockExceptions() ^= Exceptions.Slaves
+				};
 			}
 		}
 

@@ -11,7 +11,7 @@ namespace LockableDoors.Enums
 	{
 		None = 0,
 		Colonists = 1,
-		Prisoners = 2,
+		Slaves = 2,
 		Pets = 4,
 		Allies = 8,
 	}
