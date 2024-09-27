@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>NET48</TargetFramework>
 		<langVersion>10.0</langVersion>
@@ -7,35 +6,28 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<Configurations>Debug;Hotswap;1.5</Configurations>
 	</PropertyGroup>
-	<Choose>
-		<When Condition="'$(Configuration)'=='1.5'">
-			<PropertyGroup>
-				<OutputPath>..\1.5\Assemblies\</OutputPath>
-			</PropertyGroup>
-			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*">
-					<ExcludeAssets>runtime</ExcludeAssets>
-				</PackageReference>
-				<PackageReference Include="Lib.Harmony" Version="2.3.3">
-					<ExcludeAssets>runtime</ExcludeAssets>
-				</PackageReference>
-			</ItemGroup>
-		</When>
-		<Otherwise>
-			<PropertyGroup>
-				<OutputPath>..\1.4\Assemblies\</OutputPath>
-			</PropertyGroup>
-			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.4.3704">
-					<ExcludeAssets>runtime</ExcludeAssets>
-				</PackageReference>
-				<PackageReference Include="Lib.Harmony" Version="2.2.2">
-					<ExcludeAssets>runtime</ExcludeAssets>
-				</PackageReference>
-			</ItemGroup>
-		</Otherwise>
-	</Choose>
+	<PropertyGroup>
+		<OutputPath>..\1.5\Assemblies\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.5|AnyCPU'">
+	  <Optimize>True</Optimize>
+	  <DebugType>None</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <DebugType>portable</DebugType>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Hotswap|AnyCPU'">
+	  <DebugType>None</DebugType>
+	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="Zetrith.Prepatcher" Version="1.2.0" />
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="Lib.Harmony" Version="2.3.3">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="Zetrith.Prepatcher" Version="1.2.0">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
 	</ItemGroup>
 </Project>
