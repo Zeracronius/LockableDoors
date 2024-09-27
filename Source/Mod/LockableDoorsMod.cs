@@ -32,8 +32,7 @@ namespace LockableDoors.Mod
 		{
 			bool before = Settings.PrintLockSymbol;
 
-			FilterTreeBox options = new FilterTreeBox(Settings.Nodes);
-			options.Draw(inRect);
+			Settings.Menu.Draw(inRect);
 			
 			if (before != Settings.PrintLockSymbol)
 				SectionLayers.SectionLayer_DoorLocks.InvalidateDoors();

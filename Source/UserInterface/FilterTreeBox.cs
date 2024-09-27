@@ -142,7 +142,7 @@ namespace LockableDoors.UserInterface
 			float height = inRect.height;
 
 			float clearButtonSize = Text.LineHeight;
-			string searchText = Widgets.TextArea(new Rect(inRect.x, curY, inRect.width - clearButtonSize - 10, clearButtonSize), _currentFilter).ToLower().Trim();
+			string searchText = Widgets.TextArea(new Rect(inRect.x, curY, inRect.width - clearButtonSize - 10, clearButtonSize), _currentFilter).ToLower();
 			if (Widgets.ButtonText(new Rect(inRect.width - clearButtonSize - 5, curY, clearButtonSize, clearButtonSize), "X"))
 				searchText = "";
 

@@ -1,4 +1,5 @@
-﻿using LockableDoors.UserInterface.TreeBox;
+﻿using LockableDoors.UserInterface;
+using LockableDoors.UserInterface.TreeBox;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace LockableDoors.Mod
 	internal class LockableDoorsSettings : ModSettings
 	{
 		public bool PrintLockSymbol = false;
-		public List<TreeNode_FilterBox> Nodes;
+		public FilterTreeBox Menu;
 
         public LockableDoorsSettings()
         {
-			Nodes = new List<TreeNode_FilterBox>
+			var nodes = new List<TreeNode_FilterBox>
 			{
 				new TreeNode_FilterBox("LockableDoorsSettingsShowLocks".Translate(), callback: (in Rect x) =>
 					Widgets.Checkbox(x.position, ref PrintLockSymbol, x.height))
@@ -24,6 +25,7 @@ namespace LockableDoors.Mod
 
 			};
 
+			Menu = new FilterTreeBox(nodes);
 		}
 
         public override void ExposeData()
