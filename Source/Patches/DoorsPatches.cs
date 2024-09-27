@@ -95,9 +95,9 @@ namespace LockableDoors.Patches
 				Verse.Command_Action togglebutton = __instance.ToggleLockGizmo();
 
 				// If no button is cached on this door, generate one.
+				bool locked = __instance.IsLocked();
 				if (togglebutton == null)
 				{
-					bool locked = __instance.IsLocked();
 					togglebutton = new Verse.Command_Action()
 					{
 						defaultLabel = locked ? _lockedLabel : _unlockedLabel,
@@ -110,31 +110,42 @@ namespace LockableDoors.Patches
 
 				yield return togglebutton;
 
-				Exceptions exceptions = __instance.LockExceptions();
-
-				yield return new Verse.Command_Action()
+				if (locked)
 				{
-					defaultLabel = ((exceptions & Exceptions.Pets) == Exceptions.Pets) ? "Pets Allowed" : "Pets Blocked",
-					action = () => __instance.LockExceptions() ^= Exceptions.Pets
-				};
+					Exceptions exceptions = __instance.LockExceptions();
 
-				yield return new Verse.Command_Action()
-				{
-					defaultLabel = ((exceptions & Exceptions.Colonists) == Exceptions.Colonists) ? "Colonists Allowed" : "Colonists Blocked",
-					action = () => __instance.LockExceptions() ^= Exceptions.Colonists
-				};
+					yield return new Verse.Command_Toggle()
+					{
+						defaultLabel = "Allow Colonists",
+						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Colonists,
+						isActive = () => (__instance.LockExceptions() & Exceptions.Colonists) == Exceptions.Colonists,
+						shrinkable = true
+					};
 
-				yield return new Verse.Command_Action()
-				{
-					defaultLabel = ((exceptions & Exceptions.Allies) == Exceptions.Allies) ? "Allies Allowed" : "Allies Blocked",
-					action = () => __instance.LockExceptions() ^= Exceptions.Allies
-				};
+					yield return new Verse.Command_Toggle()
+					{
+						defaultLabel = "Allow Pets",
+						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Pets,
+						isActive = () => (__instance.LockExceptions() & Exceptions.Pets) == Exceptions.Pets,
+						shrinkable = true
+					};
 
-				yield return new Verse.Command_Action()
-				{
-					defaultLabel = ((exceptions & Exceptions.Slaves) == Exceptions.Slaves) ? "Slaves Allowed" : "Slaves Blocked",
-					action = () => __instance.LockExceptions() ^= Exceptions.Slaves
-				};
+					yield return new Verse.Command_Toggle()
+					{
+						defaultLabel = "Allow Allies",
+						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Allies,
+						isActive = () => (__instance.LockExceptions() & Exceptions.Allies) == Exceptions.Allies,
+						shrinkable = true
+					};
+
+					yield return new Verse.Command_Toggle()
+					{
+						defaultLabel = "Allow Slaves",
+						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Slaves,
+						isActive = () => (__instance.LockExceptions() & Exceptions.Slaves) == Exceptions.Slaves,
+						shrinkable = true
+					};
+				}
 			}
 		}
 
