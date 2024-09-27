@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LockableDoors.Enums;
 using LockableDoors.Extensions;
 using Prepatcher;
 using RimWorld;
@@ -38,7 +39,9 @@ namespace LockableDoors.Patches
 		{
 			if (__instance.IsLocked())
 			{
-				__result = false;
+				Exceptions exceptions = __instance.LockExceptions();
+				if (exceptions == Exceptions.None)
+					__result = false;
 				return false;
 			}
 			return true;
