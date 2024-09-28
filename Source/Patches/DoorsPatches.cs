@@ -41,7 +41,7 @@ namespace LockableDoors.Patches
 
 			// Otherwise check for exceptions
 			Exceptions exceptions = __instance.LockExceptions();
-			if (exceptions != Exceptions.None)
+			if (exceptions != Exceptions.None && Mod.LockableDoorsMod.Settings.AllowExceptions)
 			{
 				// If exceptions are defined, then check if pawn is player-owned.
 				if (p.Faction?.def.isPlayer == true)
@@ -58,15 +58,15 @@ namespace LockableDoors.Patches
 						if (p.IsColonist || p.IsColonyMech)
 							return true;
 					}
-				}
-				else
-				{
+
 					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
 					{
 						if (p.IsSlaveOfColony)
 							return true;
 					}
-
+				}
+				else
+				{
 					if ((exceptions & Exceptions.Allies) == Exceptions.Allies)
 					{
 						if (p.Faction.HostileTo(Faction.OfPlayer) == false)
@@ -107,45 +107,7 @@ namespace LockableDoors.Patches
 					__instance.ToggleLockGizmo() = togglebutton;
 				}
 
-
 				yield return togglebutton;
-
-				if (locked)
-				{
-					Exceptions exceptions = __instance.LockExceptions();
-
-					yield return new Verse.Command_Toggle()
-					{
-						defaultLabel = "Allow Colonists",
-						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Colonists,
-						isActive = () => (__instance.LockExceptions() & Exceptions.Colonists) == Exceptions.Colonists,
-						shrinkable = true
-					};
-
-					yield return new Verse.Command_Toggle()
-					{
-						defaultLabel = "Allow Pets",
-						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Pets,
-						isActive = () => (__instance.LockExceptions() & Exceptions.Pets) == Exceptions.Pets,
-						shrinkable = true
-					};
-
-					yield return new Verse.Command_Toggle()
-					{
-						defaultLabel = "Allow Allies",
-						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Allies,
-						isActive = () => (__instance.LockExceptions() & Exceptions.Allies) == Exceptions.Allies,
-						shrinkable = true
-					};
-
-					yield return new Verse.Command_Toggle()
-					{
-						defaultLabel = "Allow Slaves",
-						toggleAction = () => __instance.LockExceptions() ^= Exceptions.Slaves,
-						isActive = () => (__instance.LockExceptions() & Exceptions.Slaves) == Exceptions.Slaves,
-						shrinkable = true
-					};
-				}
 			}
 		}
 

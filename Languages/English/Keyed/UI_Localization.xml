@@ -1,5 +1,13 @@
 <LanguageData>
 	<LockableDoorsLocked>Locked</LockableDoorsLocked>
 	<LockableDoorsUnlocked>Unlocked</LockableDoorsUnlocked>
+
 	<LockableDoorsSettingsShowLocks>Show lock above locked doors.</LockableDoorsSettingsShowLocks>
+	<LockableDoorsSettingsAllowExceptions>Allow access exceptions</LockableDoorsSettingsAllowExceptions>
+
+	<LockableDoorsAllowButton>Access</LockableDoorsAllowButton>
+	<LockableDoorsAllowColonists>Allow colonists</LockableDoorsAllowColonists>
+	<LockableDoorsAllowPets>Allow pets</LockableDoorsAllowPets>
+	<LockableDoorsAllowAllies>Allow allies</LockableDoorsAllowAllies>
+	<LockableDoorsAllowSlaves>Allow slaves</LockableDoorsAllowSlaves>
 </LanguageData>
