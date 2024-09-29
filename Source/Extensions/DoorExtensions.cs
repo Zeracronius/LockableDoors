@@ -1,4 +1,5 @@
-﻿using Prepatcher;
+﻿using LockableDoors.Enums;
+using Prepatcher;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -23,5 +24,12 @@ namespace LockableDoors.Extensions
 		[PrepatcherField]
 		[DefaultValue(null)]
 		public static extern ref Verse.Command_Action ToggleLockGizmo(this Building_Door target);
+
+		/// <summary>
+		/// Injected prepatcher Gizmo field on Building_Door object.
+		/// </summary>
+		[PrepatcherField]
+		[DefaultValue(Exceptions.None)]
+		public static extern ref Exceptions LockExceptions(this Building_Door target);
 	}
 }

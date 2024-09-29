@@ -14,13 +14,7 @@ namespace LockableDoors.Mod
 	{
         static Initalizer()
 		{
-			LockableDoorsMod.Settings = LoadedModManager.GetMod<LockableDoorsMod>().GetSettings<LockableDoorsSettings>();
-
-
-			var harmony = new Harmony("Zeracronius.LockableDoors");
-			harmony.PatchAll();
-
-			LockableDoorsMod.Harmony = harmony;
+			Mod.LockableDoorsMod.Initialize();
 		}
     }
 }

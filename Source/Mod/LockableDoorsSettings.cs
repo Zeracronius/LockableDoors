@@ -12,7 +12,8 @@ namespace LockableDoors.Mod
 {
 	internal class LockableDoorsSettings : ModSettings
 	{
-		public bool PrintLockSymbol = false;
+		public bool PrintLockSymbol = true;
+		public bool AllowExceptions = true;
 		public FilterTreeBox Menu;
 
         public LockableDoorsSettings()
@@ -20,9 +21,10 @@ namespace LockableDoors.Mod
 			var nodes = new List<TreeNode_FilterBox>
 			{
 				new TreeNode_FilterBox("LockableDoorsSettingsShowLocks".Translate(), callback: (in Rect x) =>
-					Widgets.Checkbox(x.position, ref PrintLockSymbol, x.height))
+					Widgets.Checkbox(x.position, ref PrintLockSymbol, x.height)),
 
-
+				new TreeNode_FilterBox("LockableDoorsSettingsAllowExceptions".Translate(), callback: (in Rect x) =>
+					Widgets.Checkbox(x.position, ref AllowExceptions, x.height)),
 			};
 
 			Menu = new FilterTreeBox(nodes);
@@ -33,6 +35,7 @@ namespace LockableDoors.Mod
 			base.ExposeData();
 
 			Scribe_Values.Look(ref PrintLockSymbol, nameof(PrintLockSymbol));
+			Scribe_Values.Look(ref AllowExceptions, nameof(AllowExceptions));
 		}
 	}
 }
