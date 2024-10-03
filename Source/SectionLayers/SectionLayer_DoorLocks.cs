@@ -1,4 +1,5 @@
-﻿using LockableDoors.Extensions;
+﻿using LockableDoors.DefOf;
+using LockableDoors.Extensions;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,6 @@ namespace LockableDoors.SectionLayers
 			}
 		}
 
-		private GraphicsDef _lockedDoorGraphics;
 		private CellRect _bounds;
 
 		public SectionLayer_DoorLocks(Section section) 
@@ -37,7 +37,6 @@ namespace LockableDoors.SectionLayers
 		{
 			// Trigger printing of this layer when DoorLocks or Buildings change.
 			relevantChangeTypes = (ulong)DefOf.LDMapMeshFlagDefOf.DoorLocks | (ulong)MapMeshFlagDefOf.Buildings;
-			_lockedDoorGraphics = DefDatabase<GraphicsDef>.GetNamed("LockedDoorGraphics");
 		}
 
 		public override CellRect GetBoundaryRect()
@@ -72,7 +71,13 @@ namespace LockableDoors.SectionLayers
 					{
 						if (door.IsLocked())
 						{
-							_lockedDoorGraphics.graphicData?.GraphicColoredFor(door).Print(this, door, 0);
+							GraphicsDef? lockGraphic;
+							if (door.LockExceptions() == Enums.Exceptions.None)
+								lockGraphic = GraphicsDefOf.LockedDoorGraphics;
+							else
+								lockGraphic = GraphicsDefOf.PartialLockedDoorGraphics;
+
+							lockGraphic?.graphicData?.GraphicColoredFor(door).Print(this, door, 0);
 							_bounds.Encapsulate(thing.OccupiedDrawRect());
 						}
 					}

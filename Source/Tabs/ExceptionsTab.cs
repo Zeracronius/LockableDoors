@@ -33,7 +33,12 @@ namespace LockableDoors.Tabs
 				Widgets.Checkbox(rect.x, rect.y, ref enabled);
 
 				if (wasEnabled != enabled)
+				{
 					exceptions ^= exception;
+
+					// Invalidate lock print state
+					door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+				}
 			}
 		}
 
