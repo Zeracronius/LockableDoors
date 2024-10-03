@@ -10,4 +10,15 @@
 			<shaderType>TransparentPostLight</shaderType>
 		</graphicData>
 	</LockableDoors.GraphicsDef>
+	<LockableDoors.GraphicsDef>
+		<defName>PartialLockedDoorGraphics</defName>
+		<graphicData>
+			<texPath>LD_PartialLocked_door</texPath>
+			<graphicClass>Graphic_Single</graphicClass>
+			<drawSize>(1,1)</drawSize>
+			<drawOffset>(0,2,0)</drawOffset>
+			<drawRotated>false</drawRotated>
+			<shaderType>TransparentPostLight</shaderType>
+		</graphicData>
+	</LockableDoors.GraphicsDef>
 </Defs>
