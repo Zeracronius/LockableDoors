@@ -28,6 +28,7 @@ namespace LockableDoors.Patches
 		internal static void ExposeDataPostfix(Building_Door __instance)
 		{
 			Scribe_Values.Look(ref __instance.IsLocked(), nameof(DoorExtensions.IsLocked));
+			Scribe_Values.Look(ref __instance.LockExceptions(), nameof(DoorExtensions.LockExceptions));
 		}
 
 		// Where the actual magic happens! Prevent doors from being opened by anyone if locked.
