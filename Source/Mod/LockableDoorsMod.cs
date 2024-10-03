@@ -44,7 +44,7 @@ namespace LockableDoors.Mod
 			{
 				// Find all door defs
 				ThingDef doorDef = thingDefs[i];
-				if (doorDef.thingClass == typeof(Building_Door))
+				if (typeof(Building_Door).IsAssignableFrom(doorDef.thingClass))
 				{
 					doorDef.inspectorTabsResolved ??= new List<InspectTabBase>();
 					doorDef.inspectorTabsResolved.Add(ExceptionsTab.Instance);
