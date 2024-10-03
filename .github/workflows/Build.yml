@@ -41,7 +41,6 @@ jobs:
         Remove-Item -Force -Recurse -ErrorAction SilentlyContinue "Source"
         Remove-Item -Force -Recurse -ErrorAction SilentlyContinue "*.md"
         Remove-Item -Force -Recurse -ErrorAction SilentlyContinue ".*"
-        Remove-Item -Force -Recurse -ErrorAction SilentlyContinue "LICENSE.txt"
 
     - name: Generate artifact name
       id: generate_name
