@@ -56,7 +56,13 @@ namespace LockableDoors.Patches
 					if ((exceptions & Exceptions.Colonists) == Exceptions.Colonists)
 					{
 						// If colonists are exempt and pawn is colonist, continue as normal.
-						if (p.IsColonist || p.IsColonyMech)
+						if (p.IsColonist)
+							return true;
+					}
+
+					if ((exceptions & Exceptions.ColonyMechs) == Exceptions.ColonyMechs)
+					{
+						if (p.IsColonyMech)
 							return true;
 					}
 

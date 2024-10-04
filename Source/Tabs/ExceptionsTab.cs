@@ -50,6 +50,7 @@ namespace LockableDoors.Tabs
 			var nodes = new List<TreeNode_FilterBox>()
 			{
 				new TreeNode_FilterBox("LockableDoorsAllowColonists".Translate(), "LockableDoorsAllowColonistsTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.Colonists)),
+				new TreeNode_FilterBox("LockableDoorsAllowMechs".Translate(), "LockableDoorsAllowMechsTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.ColonyMechs)),
 				new TreeNode_FilterBox("LockableDoorsAllowPets".Translate(), "LockableDoorsAllowPetsTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.Pets)),
 				new TreeNode_FilterBox("LockableDoorsAllowAllies".Translate(), "LockableDoorsAllowAlliesTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.Allies)),
 				new TreeNode_FilterBox("LockableDoorsAllowSlaves".Translate(), "LockableDoorsAllowSlavesTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.Slaves)),
