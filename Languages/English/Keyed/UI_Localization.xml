@@ -8,6 +8,8 @@
 	<LockableDoorsAllowButton>Access</LockableDoorsAllowButton>
 	<LockableDoorsAllowColonists>Allow colonists</LockableDoorsAllowColonists>
 	<LockableDoorsAllowColonistsTooltip>Allow player controlled pawns and mech through this locked door.</LockableDoorsAllowColonistsTooltip>
+	<LockableDoorsAllowMechs>Allow mechs</LockableDoorsAllowMechs>
+	<LockableDoorsAllowMechsTooltip>Allow colony mechs through this locked door.</LockableDoorsAllowMechsTooltip>
 	<LockableDoorsAllowPets>Allow pets</LockableDoorsAllowPets>
 	<LockableDoorsAllowPetsTooltip>Allow player owned animals through this locked door.</LockableDoorsAllowPetsTooltip>
 	<LockableDoorsAllowAllies>Allow allies</LockableDoorsAllowAllies>
