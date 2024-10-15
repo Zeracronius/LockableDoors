@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LockableDoors.Enums;
 using LockableDoors.Extensions;
+using LockableDoors.Tabs;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -92,9 +93,7 @@ namespace LockableDoors.Patches
 		{
 			// Show any existing buttons
 			foreach (Verse.Gizmo gizmo in values)
-			{
 				yield return gizmo;
-			}
 
 			if (___factionInt?.def?.isPlayer == true)
 			{
@@ -115,6 +114,14 @@ namespace LockableDoors.Patches
 				}
 
 				yield return togglebutton;
+
+				if (Mod.LockableDoorsMod.Settings.ShowCopyPasteButtons)
+				{
+					Gizmo[] buttons = ExceptionsTab.Instance.CopyPasteButtons;
+					int count = buttons.Count();
+					for (int i = 0; i < count; i++)
+						yield return buttons[i];
+				}
 			}
 		}
 

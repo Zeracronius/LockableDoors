@@ -1,5 +1,6 @@
 ﻿using LockableDoors.Enums;
 using LockableDoors.Extensions;
+using LockableDoors.Mod;
 using LockableDoors.UserInterface;
 using LockableDoors.UserInterface.TreeBox;
 using RimWorld;
@@ -16,7 +17,11 @@ namespace LockableDoors.Tabs
 	internal class ExceptionsTab : ITab
 	{
 		public static ExceptionsTab Instance = new ExceptionsTab();
+		
 		private FilterTreeBox _optionsTree;
+		private Exceptions _copiedExceptions;
+
+		public Gizmo[] CopyPasteButtons;
 
 		public override bool IsVisible => Mod.LockableDoorsMod.Settings.AllowExceptions && (SelThing as Building_Door)?.IsLocked() == true;
 		public override bool Hidden => false;
@@ -47,6 +52,22 @@ namespace LockableDoors.Tabs
 			size = new Vector2(420f, 240f);
 			labelKey = "LockableDoorsAllowButton";
 
+			CopyPasteButtons = new Gizmo[]
+			{
+				new Verse.Command_Action()
+				{
+					defaultLabel = "Copy exceptions",
+					icon = Textures.CopyIcon,
+					action = CopyExceptions
+				},
+				new Verse.Command_Action()
+				{
+					defaultLabel = "Paste exceptions",
+					icon = Textures.PasteIcon,
+					action = PasteExceptions
+				},
+			};
+
 			var nodes = new List<TreeNode_FilterBox>()
 			{
 				new TreeNode_FilterBox("LockableDoorsAllowColonists".Translate(), "LockableDoorsAllowColonistsTooltip".Translate(), callback: (in Rect rect) => DrawCheckbox(rect, Exceptions.Colonists)),
@@ -57,6 +78,22 @@ namespace LockableDoors.Tabs
 			};
 
 			_optionsTree = new FilterTreeBox(nodes);
+		}
+
+		private void CopyExceptions()
+		{
+			if (SelThing is Building_Door door)
+			{
+				_copiedExceptions = door.LockExceptions();
+			}
+		}
+
+		private void PasteExceptions()
+		{
+			foreach (Building_Door door in AllSelObjects.OfType<Building_Door>())
+			{
+				door.LockExceptions() = _copiedExceptions;
+			}
 		}
 
         protected override void FillTab()
