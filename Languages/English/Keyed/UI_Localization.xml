@@ -4,6 +4,7 @@
 
 	<LockableDoorsSettingsShowLocks>Show lock above locked doors.</LockableDoorsSettingsShowLocks>
 	<LockableDoorsSettingsAllowExceptions>Allow access exceptions</LockableDoorsSettingsAllowExceptions>
+	<LockableDoorsSettingsShowCopyPasteButtons>Show copy/paste buttons</LockableDoorsSettingsShowCopyPasteButtons>
 
 	<LockableDoorsAllowButton>Access</LockableDoorsAllowButton>
 	<LockableDoorsAllowColonists>Allow colonists</LockableDoorsAllowColonists>

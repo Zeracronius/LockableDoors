@@ -1,5 +1,7 @@
 ﻿using LockableDoors.Enums;
 using LockableDoors.Extensions;
+using LockableDoors.Mod;
+using LockableDoors.Patches;
 using LockableDoors.UserInterface;
 using LockableDoors.UserInterface.TreeBox;
 using RimWorld;
@@ -16,7 +18,11 @@ namespace LockableDoors.Tabs
 	internal class ExceptionsTab : ITab
 	{
 		public static ExceptionsTab Instance = new ExceptionsTab();
+		
 		private FilterTreeBox _optionsTree;
+		private Exceptions _copiedExceptions;
+
+		public Gizmo[] CopyPasteButtons;
 
 		public override bool IsVisible => Mod.LockableDoorsMod.Settings.AllowExceptions && (SelThing as Building_Door)?.IsLocked() == true;
 		public override bool Hidden => false;
@@ -37,6 +43,7 @@ namespace LockableDoors.Tabs
 					exceptions ^= exception;
 
 					// Invalidate lock print state
+					DoorsPatches.InvalidateReachability(door);
 					door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
 				}
 			}
@@ -46,6 +53,22 @@ namespace LockableDoors.Tabs
         {
 			size = new Vector2(420f, 240f);
 			labelKey = "LockableDoorsAllowButton";
+
+			CopyPasteButtons = new Gizmo[]
+			{
+				new Verse.Command_Action()
+				{
+					defaultLabel = "Copy exceptions",
+					icon = Textures.CopyIcon,
+					action = CopyExceptions
+				},
+				new Verse.Command_Action()
+				{
+					defaultLabel = "Paste exceptions",
+					icon = Textures.PasteIcon,
+					action = PasteExceptions
+				},
+			};
 
 			var nodes = new List<TreeNode_FilterBox>()
 			{
@@ -57,6 +80,28 @@ namespace LockableDoors.Tabs
 			};
 
 			_optionsTree = new FilterTreeBox(nodes);
+		}
+
+		private void CopyExceptions()
+		{
+			if (SelThing is Building_Door door)
+			{
+				_copiedExceptions = door.LockExceptions();
+			}
+		}
+
+		private void PasteExceptions()
+		{
+			foreach (Building_Door door in AllSelObjects.OfType<Building_Door>())
+			{
+				Exceptions exceptions = door.LockExceptions();
+				if (exceptions != _copiedExceptions)
+				{
+					door.LockExceptions() = _copiedExceptions;
+					door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+					DoorsPatches.InvalidateReachability(door);
+				}
+			}
 		}
 
         protected override void FillTab()

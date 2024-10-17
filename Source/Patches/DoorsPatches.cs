@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using LockableDoors.Enums;
 using LockableDoors.Extensions;
+using LockableDoors.Tabs;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -53,10 +54,17 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
+					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
+					{
+						if (p.IsSlave)
+							return true;
+					}
+
 					if ((exceptions & Exceptions.Colonists) == Exceptions.Colonists)
 					{
 						// If colonists are exempt and pawn is colonist, continue as normal.
-						if (p.IsColonist)
+						// Controllable slaves are also considered colonists.
+						if (p.IsSlave == false && p.IsColonist)
 							return true;
 					}
 
@@ -66,11 +74,6 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
-					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
-					{
-						if (p.IsSlaveOfColony)
-							return true;
-					}
 				}
 				else
 				{
@@ -92,9 +95,7 @@ namespace LockableDoors.Patches
 		{
 			// Show any existing buttons
 			foreach (Verse.Gizmo gizmo in values)
-			{
 				yield return gizmo;
-			}
 
 			if (___factionInt?.def?.isPlayer == true)
 			{
@@ -115,6 +116,14 @@ namespace LockableDoors.Patches
 				}
 
 				yield return togglebutton;
+
+				if (Mod.LockableDoorsMod.Settings.ShowCopyPasteButtons)
+				{
+					Gizmo[] buttons = ExceptionsTab.Instance.CopyPasteButtons;
+					int count = buttons.Count();
+					for (int i = 0; i < count; i++)
+						yield return buttons[i];
+				}
 			}
 		}
 
@@ -129,10 +138,15 @@ namespace LockableDoors.Patches
 			locked = !locked;
 			action!.defaultLabel = locked ? _lockedLabel : _unlockedLabel;
 			action!.icon = locked ? Mod.Textures.LockedIcon : Mod.Textures.UnlockedIcon;
-			_clearReachabilityCache(door, door.Map);
+			InvalidateReachability(door);
 
 			// Invalidate lock print state
 			door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+		}
+
+		public static void InvalidateReachability(Building_Door door)
+		{
+			_clearReachabilityCache(door, door.Map);
 		}
 	}
 }
