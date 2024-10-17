@@ -54,10 +54,17 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
+					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
+					{
+						if (p.IsSlave)
+							return true;
+					}
+
 					if ((exceptions & Exceptions.Colonists) == Exceptions.Colonists)
 					{
 						// If colonists are exempt and pawn is colonist, continue as normal.
-						if (p.IsColonist)
+						// Controllable slaves are also considered colonists.
+						if (p.IsSlave == false && p.IsColonist)
 							return true;
 					}
 
@@ -67,11 +74,6 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
-					if ((exceptions & Exceptions.Slaves) == Exceptions.Slaves)
-					{
-						if (p.IsSlaveOfColony)
-							return true;
-					}
 				}
 				else
 				{
@@ -136,10 +138,15 @@ namespace LockableDoors.Patches
 			locked = !locked;
 			action!.defaultLabel = locked ? _lockedLabel : _unlockedLabel;
 			action!.icon = locked ? Mod.Textures.LockedIcon : Mod.Textures.UnlockedIcon;
-			_clearReachabilityCache(door, door.Map);
+			InvalidateReachability(door);
 
 			// Invalidate lock print state
 			door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+		}
+
+		public static void InvalidateReachability(Building_Door door)
+		{
+			_clearReachabilityCache(door, door.Map);
 		}
 	}
 }

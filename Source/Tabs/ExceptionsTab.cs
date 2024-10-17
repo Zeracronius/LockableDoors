@@ -1,6 +1,7 @@
 ﻿using LockableDoors.Enums;
 using LockableDoors.Extensions;
 using LockableDoors.Mod;
+using LockableDoors.Patches;
 using LockableDoors.UserInterface;
 using LockableDoors.UserInterface.TreeBox;
 using RimWorld;
@@ -42,6 +43,7 @@ namespace LockableDoors.Tabs
 					exceptions ^= exception;
 
 					// Invalidate lock print state
+					DoorsPatches.InvalidateReachability(door);
 					door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
 				}
 			}
@@ -92,7 +94,13 @@ namespace LockableDoors.Tabs
 		{
 			foreach (Building_Door door in AllSelObjects.OfType<Building_Door>())
 			{
-				door.LockExceptions() = _copiedExceptions;
+				Exceptions exceptions = door.LockExceptions();
+				if (exceptions != _copiedExceptions)
+				{
+					door.LockExceptions() = _copiedExceptions;
+					door.Map.mapDrawer.MapMeshDirty(door.Position, DefOf.LDMapMeshFlagDefOf.DoorLocks);
+					DoorsPatches.InvalidateReachability(door);
+				}
 			}
 		}
 
