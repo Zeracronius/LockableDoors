@@ -74,6 +74,8 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
+					if (p.roping?.RopedTo != LocalTargetInfo.Invalid)
+						return true;
 				}
 				else
 				{
