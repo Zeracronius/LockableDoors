@@ -74,6 +74,8 @@ namespace LockableDoors.Patches
 							return true;
 					}
 
+					// If an animal is being roped through a door by a pawn,
+					// then that pawn is allowed through and as such so too should the roped animal.
 					if (p.roping?.IsRopedByPawn == true)
 						return true;
 				}
