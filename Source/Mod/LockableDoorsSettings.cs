@@ -15,6 +15,7 @@ namespace LockableDoors.Mod
 		public bool PrintLockSymbol = true;
 		public bool AllowExceptions = true;
 		public bool ShowCopyPasteButtons = false;
+		public bool RevenantThroughLocked = true;
 		public FilterTreeBox Menu;
 
         public LockableDoorsSettings()
@@ -29,6 +30,10 @@ namespace LockableDoors.Mod
 
 				new TreeNode_FilterBox("LockableDoorsSettingsShowCopyPasteButtons".Translate(), callback: (in Rect x) =>
 					Widgets.Checkbox(x.position, ref ShowCopyPasteButtons, x.height)),
+
+				new TreeNode_FilterBox("LockableDoorsSettingsRevenant".Translate(),
+									   "LockableDoorsSettingsRevenantTooltip".Translate(), callback: (in Rect x) =>
+					Widgets.Checkbox(x.position, ref RevenantThroughLocked, x.height)),
 			};
 
 			Menu = new FilterTreeBox(nodes);
@@ -41,6 +46,7 @@ namespace LockableDoors.Mod
 			Scribe_Values.Look(ref PrintLockSymbol, nameof(PrintLockSymbol));
 			Scribe_Values.Look(ref AllowExceptions, nameof(AllowExceptions));
 			Scribe_Values.Look(ref ShowCopyPasteButtons, nameof(ShowCopyPasteButtons));
+			Scribe_Values.Look(ref RevenantThroughLocked, nameof(RevenantThroughLocked), true);
 		}
 	}
 }

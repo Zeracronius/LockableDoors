@@ -5,6 +5,8 @@
 	<LockableDoorsSettingsShowLocks>Show lock above locked doors.</LockableDoorsSettingsShowLocks>
 	<LockableDoorsSettingsAllowExceptions>Allow access exceptions</LockableDoorsSettingsAllowExceptions>
 	<LockableDoorsSettingsShowCopyPasteButtons>Show copy/paste buttons</LockableDoorsSettingsShowCopyPasteButtons>
+	<LockableDoorsSettingsRevenant>Allow revenants through locked doors.</LockableDoorsSettingsRevenant>
+	<LockableDoorsSettingsRevenantTooltip>Allow revenants to pass through doors even if they are locked.</LockableDoorsSettingsRevenantTooltip>
 
 	<LockableDoorsAllowButton>Access</LockableDoorsAllowButton>
 	<LockableDoorsAllowColonists>Allow colonists</LockableDoorsAllowColonists>

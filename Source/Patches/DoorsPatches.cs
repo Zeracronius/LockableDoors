@@ -89,6 +89,11 @@ namespace LockableDoors.Patches
 				}
 			}
 
+			if (Mod.LockableDoorsMod.Settings.RevenantThroughLocked && p.kindDef == PawnKindDefOf.Revenant)
+			{
+				return true;
+			}
+
 			__result = false;
 			return false;
 		}
