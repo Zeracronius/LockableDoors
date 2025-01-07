@@ -64,8 +64,14 @@ namespace LockableDoors.Patches
 					{
 						// If colonists are exempt and pawn is colonist, continue as normal.
 						// Controllable slaves are also considered colonists.
-						if (p.IsSlave == false && p.IsColonist)
-							return true;
+						if (p.IsSlave == false)
+						{
+							if (p.IsColonist)
+								return true;
+
+							if (p.IsMutant)
+								return true;
+						}
 					}
 
 					if ((exceptions & Exceptions.ColonyMechs) == Exceptions.ColonyMechs)
