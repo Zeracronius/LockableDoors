@@ -6,6 +6,7 @@
     <url>https://github.com/Zeracronius/LockableDoors</url>
     <supportedVersions>
         <li>1.5</li>
+        <li>1.6</li>
     </supportedVersions>
     <description>A simple and performance friendly door lock.</description>
 	<modDependencies>

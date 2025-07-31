@@ -7,14 +7,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LockableDoors", "LockableDo
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		1.5|Any CPU = 1.5|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Hotswap|Any CPU = Hotswap|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{721312F0-F7D0-450E-B226-BAC87B65336E}.1.5|Any CPU.ActiveCfg = 1.5|Any CPU
-		{721312F0-F7D0-450E-B226-BAC87B65336E}.1.5|Any CPU.Build.0 = 1.5|Any CPU
-		{721312F0-F7D0-450E-B226-BAC87B65336E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{721312F0-F7D0-450E-B226-BAC87B65336E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Debug|Any CPU.ActiveCfg = Hotswap|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Debug|Any CPU.Build.0 = Hotswap|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Hotswap|Any CPU.ActiveCfg = Hotswap|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Hotswap|Any CPU.Build.0 = Hotswap|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{721312F0-F7D0-450E-B226-BAC87B65336E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
