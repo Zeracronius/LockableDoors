@@ -4,12 +4,12 @@
 		<langVersion>10.0</langVersion>
 		<Nullable>enable</Nullable>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Configurations>Debug;Hotswap;1.5</Configurations>
+		<Configurations>Release;Hotswap;Debug</Configurations>
 	</PropertyGroup>
 	<PropertyGroup>
-		<OutputPath>..\1.5\Assemblies\</OutputPath>
+		<OutputPath>..\1.6\Assemblies\</OutputPath>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='1.5|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <Optimize>True</Optimize>
 	  <DebugType>None</DebugType>
 	</PropertyGroup>
@@ -19,11 +19,19 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Hotswap|AnyCPU'">
 	  <DebugType>None</DebugType>
 	</PropertyGroup>
+  <ItemGroup>
+    <!-- Method -->
+    <Publicize Include="Assembly-CSharp:RimWorld.Building_Door.AlwaysOpen" />
+  </ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.5.*">
+		<PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.*">
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>
-		<PackageReference Include="Lib.Harmony" Version="2.3.3">
+		<PackageReference Include="Lib.Harmony" Version="2.3.6">
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>
 		<PackageReference Include="Zetrith.Prepatcher" Version="1.2.0">

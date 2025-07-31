@@ -6,8 +6,6 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace LockableDoors.Patches
@@ -112,7 +110,7 @@ namespace LockableDoors.Patches
 			foreach (Verse.Gizmo gizmo in values)
 				yield return gizmo;
 
-			if (___factionInt?.def?.isPlayer == true)
+			if (___factionInt?.def?.isPlayer == true && __instance.AlwaysOpen == false)
 			{
 				// Get cached button
 				Verse.Command_Action togglebutton = __instance.ToggleLockGizmo();
